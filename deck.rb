@@ -16,7 +16,7 @@ class Deck
 
   def deal(province)
     top_card = @deck.shift
-    province.put(top_card)
+    province.add(top_card)
   end
 
 end

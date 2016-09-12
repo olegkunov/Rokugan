@@ -1,10 +1,10 @@
 
 class Place
 
-  def initialize(board, card)
+  def initialize(card, board)
     @bowed = false
-    @board = board
     @card = card
+    @board = board
   end
 
   def bow
@@ -19,6 +19,29 @@ class Place
     return unless @card && @bowed
     @bowed = false
     # TODO: add straighten hook
+  end
+
+end
+
+class Zone
+
+  attr_reader :name
+
+  def initialize(name, board)
+    @name = name
+    @board = board
+    @places = []
+  end
+
+  def add(card)
+    place = Place.new(card, @board)
+    @places.unshift(place)
+    place
+  end
+
+  def buy
+    p @board.zones[:play_zone]
+    puts 'Buying'
   end
 
 end
