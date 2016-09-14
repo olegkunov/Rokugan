@@ -1,24 +1,26 @@
 
 class Place
 
+  attr_reader :card
+
   def initialize(card, board)
-    @bowed = false
-    @card = card
-    @board = board
+    @bowed, @card, @board = false, card, board
   end
 
   def bow
     return unless @card && ! @bowed
     @bowed = true
-    if @card.bow_hook
-      @card.bow_hook.call(@card, @board)
-    end
+    @card.bow_hook.call(@card, @board) if @card.bow_hook
   end
 
   def straighten
     return unless @card && @bowed
     @bowed = false
     # TODO: add straighten hook
+  end
+
+  def to_s
+    @card.to_s
   end
 
 end
@@ -28,9 +30,7 @@ class Zone
   attr_reader :name
 
   def initialize(name, board)
-    @name = name
-    @board = board
-    @places = []
+    @name, @board, @places = name, board, []
   end
 
   def add(card)
@@ -40,8 +40,15 @@ class Zone
   end
 
   def buy
-    p @board.zones[:play_zone]
-    puts 'Buying'
+    place = @places.shift
+    card = place.card
+    new_place = @board.play_zone.add(card)
+    @board.remove_gold(card.cost)
+    new_place
+  end
+
+  def to_s
+    "Name: #{@name}, contents: #{@places.map { |place| place.to_s }.to_s}"
   end
 
 end

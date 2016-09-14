@@ -13,8 +13,18 @@ class Board
     @gold += gold
   end
 
+  def remove_gold(gold)
+    @gold -= gold
+  end
+
   def zones
     {:board => self, :play_zone => @play_zone, :provinces => @provinces}
+  end
+
+  def to_s
+    "Gold: #{@gold}
+Provinces: #{@provinces.map { |pr| pr.to_s }.to_s}
+Play zone: #{@play_zone}"
   end
 
 end
